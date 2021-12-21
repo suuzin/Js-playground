@@ -19,6 +19,8 @@ const onClickBtn = () => {
     }else {
         alert('제대로 입력해주세요');
     }
+    getInput.value = "";
+    getInput.focus();
 }
 
 getBtn.addEventListener("click",onClickBtn);
