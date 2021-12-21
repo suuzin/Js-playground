@@ -20,8 +20,7 @@ const onClickBtn = () => {
     }else {
         alert('제대로 입력해주세요');
     }
-    getInput.value = "";
-    getInput.focus();
+    getReset();
 }
 
 const checkIndex = (order) => {
@@ -30,6 +29,11 @@ const checkIndex = (order) => {
     }else {
         getOrder.textContent = order +1 ;
     }
+}
+
+const getReset = () => {
+    getInput.value = "";
+    getInput.focus();
 }
 
 getBtn.addEventListener("click",onClickBtn);
