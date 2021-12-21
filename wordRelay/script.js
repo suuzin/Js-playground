@@ -16,11 +16,20 @@ const onClickBtn = () => {
         word = newWord;
         getWord.textContent = word;
         order = Number(getOrder.textContent);
+        checkIndex(order);
     }else {
         alert('제대로 입력해주세요');
     }
     getInput.value = "";
     getInput.focus();
+}
+
+const checkIndex = (order) => {
+    if(order + 1 > getNum){
+        getOrder.textContent =1;
+    }else {
+        getOrder.textContent = order +1 ;
+    }
 }
 
 getBtn.addEventListener("click",onClickBtn);
