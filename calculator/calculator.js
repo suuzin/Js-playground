@@ -12,6 +12,76 @@ let onClickNumber = (event) => {
     }
 };
 
+let getInput = () => {
+    return clickedNum.join("");
+};
+
+let isEmpty = () => {
+    return clickedNum.length === 0;
+};
+
+let seperateValue = () => {
+    clickedNum = clickedNum.join("").split(" ");
+};
+
+let getNum = () => {
+    let num = clickedNum.shift();
+    return Number(num);
+};
+
+let getOperator = () => {
+    let operator = clickedNum.shift();
+    if(operator === '+'||operator === '-'||operator ==='*'||operator === '/')
+        return operator;
+};
+
+let showAnswer = (str) => {
+    getResult.value = str;
+    clickedNum.push(str);
+};
+
+let display = () => {
+    getResult.value = getInput();
+};
+
+let calculate = (first,second,op) => {
+    let result;
+    switch (op) {
+        case "+":
+            result = first + second;
+            break;
+        case "-":
+            result = first - second;
+            break;
+        case "*":
+            result = first * second;
+            break;
+        case "/":
+            result = first / second;
+            break;
+        default:
+            return NaN;
+    }
+    return result;
+};
+
+let onCalculate = (event) => {
+        seperateValue();
+        let result = getNum();
+
+        while(!isEmpty()){
+        let op = getOperator();
+        let second = getNum();
+        result = calculate(result,second,op);
+    }
+        showAnswer(result);
+}
+
+let onClear = () =>{
+    clickedNum = [];
+    getResult.value = "";
+}
+
 document.querySelector('#num-0').addEventListener('click', onClickNumber);
 document.querySelector('#num-1').addEventListener('click', onClickNumber);
 document.querySelector('#num-2').addEventListener('click', onClickNumber);
