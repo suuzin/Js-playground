@@ -1,12 +1,8 @@
-/*
-랜덤한 수 4개를 넣는다. 
-랜덤한 수에 중복은 없어야 한다.
-
-1.입력창에 입력한다.
-2. 입력버튼을 누른다.
-*/
 const getForm = document.querySelector("#form");
+const getInput = document.querySelector("#input");
+const content = document.querySelector("#content");
 const number = [1,2,3,4,5,6,7,8,9];
+const historyNum = [];
 const answer = [];
 
 function getRandomNum() {
@@ -18,9 +14,8 @@ function getRandomNum() {
     return answer;
 }
 getRandomNum();
-console.log(answer);
+console.log("정답",answer); 
 
-const historyNum = [];
 function checkInput(input){
     if(input.length !== 4){
         return alert("4자리 수가 아닙니다.")
@@ -35,16 +30,21 @@ function checkInput(input){
 
 function clickSubmit(event){
     event.preventDefault();
-    const value = event.target[0].value;
-    event.target[0].value = "";
-    console.log(value);
-    if(checkInput(value)){
-        //입력값
-    }else{
-        //입력값
-    };
+    const correctAnswer = getInput.value;
+    getInput.value = "";
+    console.log("내정답",correctAnswer);
+    
+    if(!checkInput(correctAnswer)){
+        historyNum.push(correctAnswer);
+        console.log("히스토리",historyNum);
+        return;
+    }
+
+    if(answer.join('') === correctAnswer){ //배열을 문자열로 바꿔준다.
+        content.textContent = '홈런';
+        return;
+    }
+    
+    
 }
 getForm.addEventListener("submit",clickSubmit);
-
-
-
