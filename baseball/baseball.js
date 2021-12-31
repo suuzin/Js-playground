@@ -1,50 +1,70 @@
-const getForm = document.querySelector("#form");
-const getInput = document.querySelector("#input");
-const content = document.querySelector("#content");
-const number = [1,2,3,4,5,6,7,8,9];
-const historyNum = [];
+const getInput = document.querySelector('#input');
+const getForm = document.querySelector('#form');
+const getContent = document.querySelector('#content');
+const numbers = [1,2,3,4,5,6,7,8,9];
 const answer = [];
+const historyNum = [];
 
-function getRandomNum() {
-    for(let i = 0; i < 4; i++){
-        const index = Math.floor(Math.random()* (number.length));
-        answer.push(number[index]);
-        number.splice(index,1);
+function getAnswer(){
+    for (let n = 0; n < 4; n += 1) { 
+        const index = Math.floor(Math.random() * numbers.length); 
+        answer.push(numbers[index]);
+        numbers.splice(index, 1);
     }
-    return answer;
+    console.log(answer);
 }
-getRandomNum();
-console.log("정답",answer); 
+getAnswer();
 
-function checkInput(input){
-    if(input.length !== 4){
-        return alert("4자리 수가 아닙니다.")
-    }
-    if(new Set(input).size !==4){
-        return alert("중복된 내용이 있습니다.");
-    }
-    if(historyNum.includes(input)){
-        return alert("이미 입력한 내용입니다.");
-    }
+
+function checkInput(input) { 
+  if (input.length !== 4) { 
+    return alert('4자리 숫자를 입력해 주세요.');
+  }
+  if (new Set(input).size !== 4) { 
+    return alert('중복되지 않게 입력해 주세요.');
+  }
+  if (historyNum.includes(input)) { 
+    return alert('이미 시도한 값입니다.');
+  }
+  return true;
 }
 
-function clickSubmit(event){
-    event.preventDefault();
-    const correctAnswer = getInput.value;
-    getInput.value = "";
-    console.log("내정답",correctAnswer);
-    
-    if(!checkInput(correctAnswer)){
-        historyNum.push(correctAnswer);
-        console.log("히스토리",historyNum);
-        return;
+let strike = 0;
+let ball = 0;
+function checkRule(value){
+  for (let i = 0; i < answer.length; i++) {
+    const index = value.indexOf(answer[i]);
+    if (index > -1) { 
+      if (index === i) { 
+        strike += 1;
+      } else {
+        ball += 1; 
+      }
     }
-
-    if(answer.join('') === correctAnswer){ //배열을 문자열로 바꿔준다.
-        content.textContent = '홈런';
-        return;
-    }
-    
-    
+  }
 }
-getForm.addEventListener("submit",clickSubmit);
+
+getForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const value = $input.value;
+  getInput.value = '';
+  if (!checkInput(value)) {
+    return;
+  }
+
+  if (answer.join('') === value) {
+    content.textContent = '홈런!';
+    return;
+  }
+  if (historyNum.length >= 9) {
+    const message = document.createTextNode(`패배! 정답은 ${answer.join('')}`);
+    content.appendChild(message);
+    return;
+  }
+  
+  if(checkRule(value)){
+      return;
+  }
+  content.append(`${value}: ${strike} 스트라이크 ${ball} 볼`, document.createElement('br'));
+  historyNum.push(value);
+});
